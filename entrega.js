@@ -1,26 +1,26 @@
 const fs = require('fs');
+const path = require('path');
 
 class ProductManager {
-    constructor(path) {
-        // Inicializa ProductManager en la ruta especificada
-        this.path = path;
+    constructor() {
+        // Establece el path a "products.json"
+        this.path = path.join(__dirname, 'products.json');
         this.products = [];
         this.loadProducts();
     }
 
     loadProducts() {
+         // Carga los productos desde el archivo y los parsea con los datos del JSON
         try {
-            // Carga los productos desde el archivo y los parsea con los datos del JSON
             const data = fs.readFileSync(this.path, 'utf8');
             this.products = JSON.parse(data);
         } catch (error) {
             console.log('Error cargando productos:', error);
         }
     }
-
     saveProducts() {
+        // Guarda los productos al archivo escribiendo los datos del JSON
         try {
-            // Guarda los productos al archivo escribiendo los datos del JSON
             fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
             console.log('Productos guardados exitosamente.');
         } catch (error) {
@@ -45,8 +45,7 @@ class ProductManager {
             code: productData.code,
             stock: productData.stock,
         };
-
-        // Agrega el nuevo producto al array de productos y los guarda en el archivo
+// Agrega el nuevo producto al array de productos y los guarda en el archivo
         this.products.push(newProduct);
         this.saveProducts();
     }
@@ -57,7 +56,7 @@ class ProductManager {
     }
 
     getProductById(productId) {
-        // Encuentra y devuelve el producto con el id especificado
+         // Encuentra y devuelve el producto con el id especificado
         return this.products.find((product) => product.id === productId);
     }
 
